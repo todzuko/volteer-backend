@@ -11,8 +11,12 @@ app.use(bodyParser.json());
 
 //import routes
 const postsRoute = require('./routes/posts');
+const searchRoute = require('./routes/search');
+const usersRoute = require('./routes/users');
 
 app.use('/posts', postsRoute); //use postRoute when we hit posts
+app.use('/search', searchRoute); //use postRoute when we hit posts
+app.use('/users', usersRoute); //use postRoute when we hit posts
 
 // //middlewares - function that executes whenever user hit the route
 // app.use('/posts', () => {
