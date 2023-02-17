@@ -8,15 +8,15 @@ const groupSchema = mongoose.Schema({
     users: {
         default: [],
         required: true,
-        type: [Schema.Types.ObjectId],
-        ref: 'User'
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'users'
     },
     color: {
         type: String,
     },
     search: {
-        type: Schema.Types.ObjectId,
-        ref: 'Search'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'search'
     },
 });
 

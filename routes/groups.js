@@ -6,15 +6,10 @@ const User = require('../models/User');
 
 router.get('/', async (req, res) => {
     try {
-        const groups = await group.find();
-        const result = groups.map(group => ({
-            id: group._id,
-            name: group.name,
-            users: group.users,
-            color: group.color,
-            search: group.search,
-        }));
-        res.json(result);
+
+        const groups = await group.find().populate('users search');
+
+        res.json(groups);
     } catch (err) {
         res.json({
             message: err
@@ -33,7 +28,7 @@ router.post('/', async (req, res) => {
             return res.status(400).json({message: 'related objects not found'});
         }
 
-        const newGroup = new Group({
+        const newGroup = new group({
             name: req.body.name,
             users,
             search,
