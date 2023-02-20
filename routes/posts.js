@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const post = require('../models/Post');
-
+const { authenticateToken } = require('./auth')
 //get all posts
-router.get('/', async (req, res) => {
+router.get('/',  authenticateToken, async (req, res) => {
     try {
         const posts = await post.find();
         res.json(posts);
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 }); // '/' cuz in app.js we specify that it's for /posts
 
 //sumbit a post
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
     const newPost = new post({
         title: req.body.title,
         description: req.body.description,
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
 });
 
 //get specific post
-router.get('/:postId', async (req, res) => {
+router.get('/:postId', authenticateToken, async (req, res) => {
     try {
         const specificPost = await post.findById(req.params.postId);
         res.json(specificPost);
@@ -44,7 +44,7 @@ router.get('/:postId', async (req, res) => {
 });
 
 //delete post
-router.delete('/:postId', async (req, res) => {
+router.delete('/:postId', authenticateToken, async (req, res) => {
     try {
         const removedPost = await post.deleteOne({
             _id: req.params.postId
@@ -58,7 +58,7 @@ router.delete('/:postId', async (req, res) => {
 });
 
 //update
-router.patch('/:postId', async (req, res) => {
+router.patch('/:postId', authenticateToken, async (req, res) => {
     try {
         const updatedPost = await post.updateOne(
             {_id: req.params.postId},

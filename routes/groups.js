@@ -3,8 +3,9 @@ const router = express.Router();
 const group = require('../models/Group');
 const Search = require('../models/Search');
 const User = require('../models/User');
+const {authenticateToken} = require('./auth');
 
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     try {
 
         const groups = await group.find().populate('users search');
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
     const userIds = req.body.users;
     const searchId = req.body.search;
 
@@ -42,7 +43,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/:groupId', async (req, res) => {
+router.get('/:groupId', authenticateToken, async (req, res) => {
     try {
         const specificGroup = await group.findById(req.params.groupId);
         res.json(specificGroup);
@@ -53,7 +54,7 @@ router.get('/:groupId', async (req, res) => {
     }
 });
 
-router.delete('/:groupId', async (req, res) => {
+router.delete('/:groupId', authenticateToken, async (req, res) => {
     try {
         const removedGroup = await group.deleteOne({
             _id: req.params.groupId
@@ -66,7 +67,7 @@ router.delete('/:groupId', async (req, res) => {
     }
 });
 
-router.patch('/:groupId', async (req, res) => {
+router.patch('/:groupId', authenticateToken, async (req, res) => {
     try {
         const updatedGroup = await group.updateOne(
             {_id: req.params.groupId},
