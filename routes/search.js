@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const search = require('../models/Search');
+const {authenticateToken} = require('./auth');
 
 //get all searches
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     try {
         const searches = await search.find();
         const result = searches.map(search => ({
@@ -27,7 +28,7 @@ router.get('/', async (req, res) => {
 }); // '/' cuz in app.js we specify that it's for /searches
 
 //sumbit a post
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
     const newSearch = new search({
         name: req.body.name,
         birthdate: req.body.birthdate,
@@ -51,7 +52,7 @@ router.post('/', async (req, res) => {
 });
 
 //get specific search
-router.get('/:searchId', async (req, res) => {
+router.get('/:searchId', authenticateToken, async (req, res) => {
     try {
         const specificSearch = await search.findById(req.params.searchId);
         const formattedBirthday = specificSearch.birthday.toLocaleDateString();
@@ -65,7 +66,7 @@ router.get('/:searchId', async (req, res) => {
 });
 
 //delete search
-router.delete('/:searchId', async (req, res) => {
+router.delete('/:searchId', authenticateToken, async (req, res) => {
     try {
         const removedSearch = await search.deleteOne({
             _id: req.params.searchId
@@ -79,7 +80,7 @@ router.delete('/:searchId', async (req, res) => {
 });
 
 //update
-router.patch('/:searchId', async (req, res) => {
+router.patch('/:searchId', authenticateToken, async (req, res) => {
     try {
         const updatedSearch = await search.updateOne(
             {_id: req.params.searchId},

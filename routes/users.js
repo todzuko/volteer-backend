@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const user = require('../models/User');
+const {authenticateToken} = require('./auth');
 
 //get all users
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     try {
         const users = await user.find();
         res.json(users);
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
 }); // '/' cuz in app.js we specify that it's for /users
 
 //sumbit a post
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
     const newUser = new user({
         login: req.body.login,
         name: req.body.name,
@@ -34,7 +35,7 @@ router.post('/', async (req, res) => {
 });
 
 //get specific user
-router.get('/:userId', async (req, res) => {
+router.get('/:userId', authenticateToken, async (req, res) => {
     try {
         const specificUser = await user.findById(req.params.userId);
         res.json(specificUser);
@@ -46,7 +47,7 @@ router.get('/:userId', async (req, res) => {
 });
 
 //delete user
-router.delete('/:userId', async (req, res) => {
+router.delete('/:userId', authenticateToken, async (req, res) => {
     try {
         const removedUser = await user.deleteOne({
             _id: req.params.userId
@@ -60,7 +61,7 @@ router.delete('/:userId', async (req, res) => {
 });
 
 //update
-router.patch('/:userId', async (req, res) => {
+router.patch('/:userId', authenticateToken, async (req, res) => {
     try {
         const updatedUser = await user.updateOne(
             {_id: req.params.userId},
@@ -80,6 +81,21 @@ router.patch('/:userId', async (req, res) => {
             message: err
         });
     }
+});
+
+// POST /login
+router.post('/login', async (req, res) => {
+    // Check if the user exists in the database
+    const logUser = await user.findOne({ login: req.body.login });
+    if (!logUser) return res.status(400).json({ error: 'Invalid username or password' });
+
+    // Check if the password is correct
+    // const validPassword = await bcrypt.compare(req.body.password, logUser.password);
+    if (req.body.password !== logUser.password) return res.status(400).json({ error: 'Invalid username or password' });
+    // if (!validPassword) return res.status(400).json({ error: 'Invalid username or password' });
+
+    const accessToken = jwt.sign({ userId: logUser._id }, process.env.ACCESS_TOKEN_SECRET);
+    res.json({ accessToken: accessToken });
 });
 
 module.exports = router;
