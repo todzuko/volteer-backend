@@ -2,7 +2,21 @@ const express = require('express');
 const router = express.Router();
 const search = require('../models/Search');
 const {authenticateToken} = require('./auth');
+const {renderImage} = require("../services/pics/templateRender");
+const path = require("path");
 
+router.get('/image', async (req, res) => {
+    try {
+        // const groups = await group.find().populate('users search');
+        await renderImage()
+        res.set('Content-Type', 'image/jpg');
+        res.sendFile(path.resolve(__dirname + '/../services/pics/files/screenshot.jpg'));
+    } catch (err) {
+        res.json({
+            message: err.message
+        });
+    }
+});
 //get all searches
 router.get('/', authenticateToken, async (req, res) => {
     try {
