@@ -13,16 +13,23 @@ const Group = require('./models/Group');
 const Post = require('./models/Post');
 const Search = require('./models/Search');
 const User = require('./models/User');
+const Polygon = require('./models/Polygon');
+const Polyline = require('./models/Polyline');
+
 //import routes
 const postsRoute = require('./routes/posts');
 const searchRoute = require('./routes/search');
 const usersRoute = require('./routes/users');
 const groupsRoute = require('./routes/groups');
+const polygonsRoute = require('./routes/polygons');
+const polylineRoute = require('./routes/polyline');
 
 app.use('/posts', postsRoute); //use postRoute when we hit posts
-app.use('/search', searchRoute); //use postRoute when we hit posts
-app.use('/users', usersRoute); //use postRoute when we hit posts
-app.use('/groups', groupsRoute); //use postRoute when we hit posts
+app.use('/search', searchRoute);
+app.use('/users', usersRoute);
+app.use('/groups', groupsRoute);
+app.use('/polygons', polygonsRoute);
+app.use('/polyline', polylineRoute);
 
 // //middlewares - function that executes whenever user hit the route
 // app.use('/posts', () => {

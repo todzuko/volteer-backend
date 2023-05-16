@@ -4,11 +4,37 @@ const search = require('../models/Search');
 const {authenticateToken} = require('./auth');
 const {renderImage} = require("../services/pics/templateRender");
 const path = require("path");
+const {diskStorage} = require("multer");
+//sumbit a post
+const multer = require('multer');
 
-router.get('/image', async (req, res) => {
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/') // specify the destination folder for uploaded files
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname) // use the original file name for the uploaded file
+    }
+})
+
+const upload = multer({ storage: storage })
+router.get('/image/:searchId', async (req, res) => {
     try {
-        // const groups = await group.find().populate('users search');
-        await renderImage()
+        const searchData = await search.findById(req.params.searchId);
+        await renderImage(searchData)
+        res.set('Content-Type', 'image/jpg');
+        res.sendFile(path.resolve(__dirname + '/../services/pics/files/screenshot.jpg'));
+    } catch (err) {
+        res.json({
+            message: err.message
+        });
+    }
+});
+
+router.get('/count/', async (req, res) => {
+    try {
+        const searchData = await search.findById(req.params.searchId);
+        await renderImage(searchData)
         res.set('Content-Type', 'image/jpg');
         res.sendFile(path.resolve(__dirname + '/../services/pics/files/screenshot.jpg'));
     } catch (err) {
@@ -41,20 +67,26 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 }); // '/' cuz in app.js we specify that it's for /searches
 
-//sumbit a post
-router.post('/', authenticateToken, async (req, res) => {
-    const newSearch = new search({
-        name: req.body.name,
-        birthdate: req.body.birthdate,
-        lostdate: req.body.lostdate,
-        place: req.body.place,
-        appearance: req.body.appearance,
-        clothes: req.body.clothes,
-        circumstances: req.body.circumstances,
-        special: req.body.special,
-        photos: req.body.photos,
-    });
 
+router.post('/', authenticateToken, upload.array('photos'), async (req, res) => {
+    const { name, birthday, lostdate, place, circumstances, clothes, appearance, special } = req.body;
+    const photos = req.files.map(file => ({
+        filename: file.originalname,
+        uri: file.path,
+    }));
+
+    const newSearch = new search({
+        name,
+        birthdate: birthday,
+        lostdate,
+        place,
+        appearance,
+        clothes,
+        circumstances,
+        special,
+        photos,
+    });
+console.log(name)
     try {
         const savedSearch = await newSearch.save();
         res.json(savedSearch);
@@ -64,6 +96,9 @@ router.post('/', authenticateToken, async (req, res) => {
         });
     }
 });
+
+
+
 
 //get specific search
 router.get('/:searchId', authenticateToken, async (req, res) => {

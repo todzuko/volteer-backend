@@ -45,7 +45,29 @@ router.post('/', authenticateToken, async (req, res) => {
 
 router.get('/:groupId', authenticateToken, async (req, res) => {
     try {
-        const specificGroup = await group.findById(req.params.groupId);
+        const specificGroup = await group.findById(req.params.groupId).populate('users search');
+        res.json(specificGroup);
+    } catch (err) {
+        res.json({
+            message: err
+        });
+    }
+});
+
+router.get('/search/:searchId', authenticateToken, async (req, res) => {
+    try {
+        const specificGroup = await group.find({search: req.params.searchId}).populate('users search');
+        res.json(specificGroup);
+    } catch (err) {
+        res.json({
+            message: err
+        });
+    }
+});
+
+router.get('/search/:searchId/user/:userId', authenticateToken, async (req, res) => {
+    try {
+        const specificGroup = await group.find({search: req.params.searchId, users: { $in: [req.params.userId] }});
         res.json(specificGroup);
     } catch (err) {
         res.json({

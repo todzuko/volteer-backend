@@ -30,11 +30,18 @@ const searchSchema = mongoose.Schema({
     special: {
         type: String,
     },
-    photos: {
-        type: String,
-        default: 'photo',
-        // required: true,
-    },
+    photos: [
+        {
+            filename: {
+                type: String,
+                required: true,
+            },
+            uri: {
+                type: String,
+                required: true,
+            },
+        },
+    ],
 });
 
 module.exports = mongoose.model('search', searchSchema);

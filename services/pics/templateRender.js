@@ -23,16 +23,43 @@ const data = {
 };
 
 //render template
-const html = template(data);
 
- const renderImage = async () => {
+
+const renderImage = async (search) => {
+    console.log(search)
+    searchData = {
+        // profilePic: 'path/to/profile-pic.jpg',
+        name: search.name,
+        year: search.birthday.getFullYear(),
+        place: search.place, //new Date(birthday).getFullYear()
+        vk:'sova72',
+        blocks: [
+            {
+                title: 'Обстоятельства пропажи',
+                text: 'Пропал ' +  search.lostdate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.') + ' ' + search.circumstances,
+            },
+            {
+                title: 'Был одет',
+                text: search.clothes,
+            },
+            {
+                title: 'Приметы',
+                text: search.appearance,
+            },
+            {
+                title: 'Особые приметы',
+                text: search.special,
+            },
+        ]
+    }
+    const html = template(searchData);
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle0' });
+    // const page = await browser.newPage();
+    await page.setViewport({ width: 800, height: 480 }); // set viewport to 800x600
 
-
-     const screenshot = await page.screenshot({ fullPage: true });
-
+    await page.setContent(html, { waitUntil: 'load' });
+    const screenshot = await page.screenshot({ fullPage: true });
     await browser.close();
 
     // Save screenshot to file

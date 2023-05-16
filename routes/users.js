@@ -2,8 +2,25 @@ const express = require('express');
 const router = express.Router();
 const user = require('../models/User');
 const {authenticateToken} = require('./auth');
+const jwt = require("jsonwebtoken");
 
 //get all users
+
+router.get('/self', async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    const decoded = jwt.decode(token, process.env.ACCESS_TOKEN_SECRET);
+    const userId = decoded && decoded.userId;
+    try {
+        const userSelf = await user.findById(userId);
+        res.json(userSelf);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+});
+
+
 router.get('/', authenticateToken, async (req, res) => {
     try {
         const users = await user.find();
@@ -95,7 +112,8 @@ router.post('/login', async (req, res) => {
     // if (!validPassword) return res.status(400).json({ error: 'Invalid username or password' });
 
     const accessToken = jwt.sign({ userId: logUser._id }, process.env.ACCESS_TOKEN_SECRET);
-    res.json({ accessToken: accessToken });
+    res.json({ accessToken: accessToken, role: logUser.role });
 });
+
 
 module.exports = router;
