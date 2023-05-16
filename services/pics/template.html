@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <style>
+        * {
+            font-family: Arial,serif;
+        }
+        .container {
+            display: flex;
+            border: 6px solid #980c0c;
+            height: 100vh;
+            flex-direction: column;
+            align-items: center;
+            padding: 1px;
+            margin: 0;
+            flex-grow: 1;
+        }
+        .mainContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .left {
+            /*flex: 1;*/
+            padding: 10px;
+            flex-direction: column;
+            width: 30%;
+        }
+        .right {
+            flex: 1;
+            padding: 10px;
+            flex-direction: column;
+        }
+
+        .contact {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-direction: column;
+            position: absolute;
+            top: 80px;
+            width: 100%;
+            max-width: 230px;
+            height: 370px;
+        }
+        h2 {
+            margin-bottom: 2px;
+            font-size: 24px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 20px;
+            /*padding: 0;*/
+            /*margin: 0;*/
+            /*margin-bottom: 4px;*/
+        }
+
+        .contact img:first-child {
+            position:relative;
+            top: 10px;
+            left: -20px;
+            object-fit: cover;
+            max-width: 160px;
+            max-height: 250px;
+        }
+        .contact img:nth-child(2) {
+            right: -50px;
+            top: -30%;
+            position:relative;
+            width: 100px;
+            object-fit: cover;
+            max-width: 100px;
+        }
+        .contactInfo {
+            position: relative;
+            bottom: 80px;
+            text-align: center;
+        }
+        .vk {
+            display: flex;
+            height: 30px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            gap: 0;
+            /*text-align: center;*/
+            /*align-items: center;*/
+            /*justify-content: center;*/
+        }
+        .vk img {
+            object-fit: cover;
+            height: 40px;
+            width: 40px;
+            padding-left: 10px;
+        }
+        .vk-text{
+            color: white;
+            border-radius: 10px;
+            background-color: #4c74a4;
+            height: 30px;
+            padding: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Внимание! Пропал человек</h2>
+    <div class="mainContainer">
+        <div class="left">
+            <div class="contact">
+                <img src="https://www.kindpng.com/picc/m/21-214585_person-symbols-transparent-background-person-icon-hd-png.png" alt="xxx">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAEZCAMAAAAJ5v+EAAAAe1BMVEX29vYAAAD9/f35+fn+/v5gYGCKioqoqKjJycnX19fa2tpdXV3z8/NwcHBtbW2mpqYICAjp6enExMS9vb2QkJAODg5HR0cqKiq1tbWEhIQ4ODgiIiIWFhZVVVXt7e2Xl5cxMTF4eHicnJweHh49PT19fX0nJydPT09GRkYpRDEqAAAE+ElEQVR4nO3da3OiMBQGYDiJVTReuGy94W1bt/7/X7iCtSIQiWLksPu+XzpTpjNPY0wgkIPjIAiCIHUjRNOCuyIEkfKPUUQtoQvph/PVYhnHy8VqHvqSP5so6LhXGQTEmy1EuHULWYScOwn5nSI5Scenpm26yGBSbnbdOJBN68pDYx05yZhlW9PvW+ajmmFby+5ts+vO2LW18KrMrutxG0NUyVCXz0I1rbwORdVm141YdWvhm5hdd82pg9DcDD3n1NTKzOzG66all9DMEM1p2JOaU45iRnzQwtTsbtn0D9E3Rrt9LuOHCM3RARc0VZ52XNLl0qlpY47etBEdsUFXnEnzbOk29ul7Ro8el9GjleO0Q79MzYyuA+TQFL3j0qXv6dQhm95xPJ/WrtJc54NP7zCfXtiM0kmEHxuhOTW06aTIbWlMvFebvxh9C9MYLCLEfCaWcyioQgfMOkeSqktyRhfimcibU0zIaZ0mE/K0q5ALj2U7JxHrfbl5r9h9By8R5K2K5AHfZj5FSG8/zYqn+34Lbn8KqXrj4epzu/1cDceeagE5jSAS6pjkZ9MWpMEcOwDJu0PNPVIhSK6DbrQb6TLUZLePxqHfRH8nx3ubFsdk80yGoXqtm9TM4AS6KsvIf90ZiZDBoj45TeS8qLGFMl7nqM6095I5nrw/zzO7r7lypN5Tyce8We8hzze77txyW9+zQmqejd1BRNUam7UJbba13Fkxu7Fvr19XrxM8Gov3n9Wz5pRirN0VveeO0L15t9Y/DB5UejiWmvqeu1j358vOsCdLlgeeGCvrk6ZPVz0aK7cJzB/6eSyfNtDmD/08GBv9w9IMfomFxWA7p0rZ7C2grU3h53Sej779TDdXtOGjmbzQozaibY94QP9b6Emah3ylf/kSdKCUch67LvCSP31rAp0saD14MZNsxJDNoEUtNAENNNBAAw000EADDTTQQAMNNNBAAw000EADDTTQQAMNNNBAAw000EADDTTQQAMNNNBAAw000P8DurD7wquJzhfZs4HON0xa/a4OOr/rzgK6sA3qIOuhC/sbBxb29qlc3Ya0GGwNtCNyO0lt1PHNVR88FaGshc59dlY2vNNV8ZRT+bs6aId22d/ZKeMr1hn1947HWmjHyQyjtl7XINR5BDmc65/UQwtxfv3EH4s1AMnv7gajqPdTaUaLXq2Tl1jpivj+vHCE/PHo8LWbKZtlJ0RSLCpTiUiLHkghhFOJTqo5JdWkLJKLuYFODlejmwjQQAMNNNBAAw000EADDXTr0bpCGkC/Ct3sGyWABhpooIFuM1r7EjGggQYaaKCBBhpooIEGGmiggQYaaKCBBhpooIEGGmiggQYa6FahNQeBBhro56J17/IDGmiggQaaBxqTC9BAAw000EADDTTQTNC6U9MO4wVIEWpYu7SI10f5wYmV4lbmaE+DHidouSo/+KmaNB/Vy3JXurczV47s8jFYqm5lmmIZvTSLtLJSobrcd3qN9g6t61x6bFh28PDaWlEloaiE9f7NKv+Xmt0WfIIVv23xz+hQqJl4zKbhHp3kqiJdmknv8vkXZ5958+3sJBXprquHTvvZPptv698szEklttn00syRc80iP1NcdOU1/iX8CYlgd1j++lh0uuuCSsj+ZrWN4+lX5BGTdj5FkOP7viqvfCeI1r6/FrzIp4hbppsHEQRBEF3+Ak6uhK+pP6AoAAAAAElFTkSuQmCC" alt="test">
+                <div class="contactInfo">
+                    <div style="font-size: 20px;">Поисковый Отряд<br>"Белая Сова - Тюмень"</div>
+                    <div class="vk">
+                        <img src="data:image/png;base64,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" alt="vk_logo">
+                        <div class="vk-text">vk.com/<b>poisksova</b></div>
+                    </div>
+                    <div style="font-size: 20px; padding-top: 5px;">8-932-32-39-911</div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+        <h3>{{name}}, {{year}}г.р. {{place}}</h3>
+        {{#each blocks}}
+            <p><b>{{title}}: </b>{{text}}</p>
+        {{/each}}
+        <p>
+        Всех, кто может сообщить какую-либо информацию о данном человеке, просим позвонить по телефонам:<br>
+        02/102 полиция.<br/>8 (3452) 79-98-06 - дежурная часть ОП №6 г. Тюмени.<br/>8-932-32-39-911 - Волонтеры ПО «Белая Сова – Тюмень»<br/>или написать на почту poisksova@gmail.com.
+        </p>
+    </div>
+    </div>
+</div>
+</body>
+</html>
